@@ -7,7 +7,7 @@ import { doc, updateDoc } from "firebase/firestore";
 export default function Profile() {
   const auth = getAuth()
   const navigate = useNavigate()
-  const [changeDetail, setChangeDetail] = useState();
+  const [changeDetail, setChangeDetail] = useState(false);
   const [formData, setFormData] = useState({
     name: auth.currentUser.displayName,
     email: auth.currentUser.email,
