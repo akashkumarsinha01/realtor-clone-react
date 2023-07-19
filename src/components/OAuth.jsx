@@ -3,7 +3,7 @@ import { doc, getDoc, serverTimestamp, setDoc } from 'firebase/firestore'
 import React from 'react'
 import {FcGoogle} from "react-icons/fc"
 import { db } from '../firebase'
-import { useNavigate } from 'react-router'
+import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 export default function OAuth() {
   const navigate = useNavigate
