@@ -11,6 +11,7 @@ import {
   orderBy,
   updateDoc,
   where,
+  deleteDoc,
 } from "firebase/firestore";
 import { FcHome } from "react-icons/fc";
 import { Link } from "react-router-dom";
@@ -76,6 +77,20 @@ export default function Profile() {
     }
     fetchUserListings();
   }, [auth.currentUser.uid]);
+  async function onDelete(listingID) {
+    if (window.confirm("Are you sure you want to delete?")) {
+      await deleteDoc(doc(db, "listings", listingID));
+      const updatedListings = listings.filter(
+        (listings) => listings.id !== listingID
+      );
+      setListings(updatedListings);
+      toast.success("Succesfully deleted the listing");
+    }
+  }
+  function onEdit(listingID) {
+    navigate(`/edit-listings/${listingID}`);
+  }
+
   return (
     <>
       <section className="max-w-6xl mx-auto flex justify-center items-center flex-col">
@@ -146,12 +161,14 @@ export default function Profile() {
             <h2 className="text-2xl text-center, font-semibold mb-6">
               My Listing
             </h2>
-            <ul className="sm:grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 mt-6 mb-6">
+            <ul className="sm:grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 mt-6 mb-6">
               {listings.map((listing) => (
                 <ListingItem
                   key={listing.id}
                   id={listing.id}
                   listing={listing.data}
+                  onDelete={() => onDelete(listing.id)}
+                  onEdit={() => onEdit(listing.id)}
                 />
               ))}
             </ul>
