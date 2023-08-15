@@ -69,20 +69,30 @@ export default function CreateListing() {
 
   useEffect(() => {
     setLoading(true);
-    async function fetchLisiting() {
+    async function fetchListing() {
       const docRef = doc(db, "listings", params.listingId);
       const docSnap = await getDoc(docRef);
+      console.log(docSnap.data());
       if (docSnap.exists()) {
         setListing(docSnap.data());
-        setFormData({ ...docSnap.data() });
+        setFormData({
+          ...docSnap.data(),
+          latitude: docSnap.data().geolocation.lat,
+          longitude: docSnap.data().geolocation.lng,
+        });
         setLoading(false);
       } else {
         navigate("/");
         toast.error("Listing does not exist");
       }
     }
-    fetchLisiting();
-  }, [navigate, params.listingId]);
+    fetchListing();
+  }, [
+    navigate,
+    params.listingId,
+    // listing.geolocation.lat,
+    // listing.geolocation.lng,
+  ]);
 
   function onChange(e) {
     let boolean = null;
@@ -203,7 +213,7 @@ export default function CreateListing() {
     updateDoc(docRef, formDataCopy);
     setLoading(false);
     toast.success("Listing edited");
-    navigate(`/category/${formDataCopy.type}/${docRef}`);
+    navigate(`/category/${formDataCopy.type}/${docRef.id}`);
   }
 
   if (loading) {
@@ -354,6 +364,7 @@ export default function CreateListing() {
                 required
                 min="-90"
                 max="90"
+                step="0.0001"
                 className="w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition decoration-purple-100 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600 text-center"
               />
             </div>
@@ -367,6 +378,7 @@ export default function CreateListing() {
                 required
                 min="-180"
                 max="180"
+                step="0.0001"
                 className="w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition decoration-purple-100 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600 text-center"
               />
             </div>
@@ -379,7 +391,7 @@ export default function CreateListing() {
           value={description}
           onChange={onChange}
           placeholder="Description"
-          drequired
+          required
           className="w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600 mb-6"
         />
 
