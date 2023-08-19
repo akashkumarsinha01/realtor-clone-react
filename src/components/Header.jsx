@@ -1,40 +1,69 @@
-import React, { useEffect, useState } from 'react'
-import mainlogo from './images/logo.png'
-import { useLocation, useNavigate } from 'react-router-dom';
-import {getAuth, onAuthStateChanged} from 'firebase/auth'
+import React, { useEffect, useState } from "react";
+import mainlogo from "./images/logo.png";
+import { useLocation, useNavigate } from "react-router-dom";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 export default function Header() {
-  const [pageState, setPageState] = useState("Sign in")
+  const [pageState, setPageState] = useState("Sign in");
   const location = useLocation();
   const navigate = useNavigate();
   const auth = getAuth();
-  useEffect(()=>{
-    onAuthStateChanged(auth, (user)=>{
-      if(user){
-        setPageState("Profile")
-      }else{
-        setPageState("Sign in")
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setPageState("Profile");
+      } else {
+        setPageState("Sign in");
       }
-    })
-  },[auth]);
-  function pathMatchRoute(route){
-    if(route === location.pathname){
-        return true;
+    });
+  }, [auth]);
+  function pathMatchRoute(route) {
+    if (route === location.pathname) {
+      return true;
     }
   }
-    return (
-    <div className='bg-white border-b shadow-sm sticky top-0 z-50'>
-        <header className='flex justify-between items-center px-3 max-w-6xl mx-auto'>
-            <div>
-                <img src={mainlogo} alt="logo" className="h-14 cursor-pointer" onClick={()=>navigate("/")}/>
-            </div>
-            <div>
-                <ul className='flex space-x-10'>
-                    <li className={`cursor-pointer py-3 text-sm font-semibold text-gray-400 ${pathMatchRoute("/") && "text-black border-b-[3px] border-b-red-500"}`} onClick={()=>navigate("/")}>Home</li>
-                    <li className={`cursor-pointer py-3 text-sm font-semibold text-gray-400 ${pathMatchRoute("/offers") && "text-black border-b-[3px] border-b-red-500"}`} onClick={()=>navigate("/offers")}>Offers</li>
-                    <li className={`cursor-pointer py-3 text-sm font-semibold text-gray-400 ${(pathMatchRoute("/sign-in") ||  (pathMatchRoute("/profile"))) && " text-black border-b-[3px] border-b-red-500"}`} onClick={()=>navigate("/profile")}>{pageState}</li>
-                </ul>
-            </div>
-        </header>
+  return (
+    <div className="bg-white border-b shadow-sm sticky top-0 z-50">
+      <header className="flex justify-between items-center px-3 max-w-6xl mx-auto">
+        <div>
+          <img
+            src={mainlogo}
+            alt="logo"
+            className="h-14 cursor-pointer"
+            onClick={() => navigate("/")}
+          />
+        </div>
+        <div>
+          <ul className="flex space-x-10">
+            <li
+              className={`cursor-pointer py-3 text-sm font-semibold text-gray-400 ${
+                pathMatchRoute("/") &&
+                "text-slate-950 border-b-[3px] border-b-red-500"
+              }`}
+              onClick={() => navigate("/")}
+            >
+              Home
+            </li>
+            <li
+              className={`cursor-pointer py-3 text-sm font-semibold text-gray-400 ${
+                pathMatchRoute("/offers") &&
+                "text-slate-950 border-b-[3px] border-b-red-500"
+              }`}
+              onClick={() => navigate("/offers")}
+            >
+              Offers
+            </li>
+            <li
+              className={`cursor-pointer py-3 text-sm font-semibold text-gray-400 ${
+                (pathMatchRoute("/sign-in") || pathMatchRoute("/profile")) &&
+                " text-slate-950 border-b-[3px] border-b-red-500"
+              }`}
+              onClick={() => navigate("/profile")}
+            >
+              {pageState}
+            </li>
+          </ul>
+        </div>
+      </header>
     </div>
-  )
+  );
 }
