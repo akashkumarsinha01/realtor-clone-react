@@ -11,6 +11,8 @@ import { v4 as uuidv4 } from "uuid";
 import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 import { db } from "../firebase";
 import { useNavigate } from "react-router-dom";
+import Spinner from "../components/Spinner";
+
 export default function CreateListing() {
   const navigate = useNavigate();
   const auth = getAuth();
@@ -169,7 +171,7 @@ export default function CreateListing() {
   }
 
   if (loading) {
-    return <h3>Loading</h3>;
+    return <Spinner />;
   }
   return (
     <main className="max-w-md px-2 mx-auto">

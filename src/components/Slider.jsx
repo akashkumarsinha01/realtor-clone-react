@@ -6,6 +6,7 @@ import SwiperCore from "swiper";
 import { EffectFade, Autoplay, Navigation, Pagination } from "swiper/modules";
 import "swiper/css/bundle";
 import { useNavigate } from "react-router";
+import Spinner from "./Spinner";
 
 export default function Slider() {
   const [listings, setListings] = useState(null);
@@ -30,7 +31,7 @@ export default function Slider() {
     fetchListings();
   }, []);
   if (loading) {
-    return <h2>Loading</h2>;
+    return <Spinner />;
   }
   if (listings.length === 0) {
     return <></>;

@@ -17,6 +17,7 @@ import {
 import { getAuth } from "firebase/auth";
 import Contact from "../components/Contact";
 import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
+import Spinner from "../components/Spinner";
 
 export default function Listing() {
   const auth = getAuth();
@@ -38,7 +39,7 @@ export default function Listing() {
     fetchListing();
   }, [params.listingId]);
   if (loading) {
-    return <h3>Loading</h3>;
+    return <Spinner />;
   }
   return (
     <main>

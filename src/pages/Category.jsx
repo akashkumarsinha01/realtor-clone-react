@@ -12,6 +12,7 @@ import {
 import { db } from "../firebase";
 import ListingItem from "../components/ListingItem";
 import { useParams } from "react-router";
+import Spinner from "../components/Spinner";
 
 export default function Category() {
   const [listings, setListings] = useState(null);
@@ -81,7 +82,7 @@ export default function Category() {
       </h1>
       {loading ? (
         <>
-          <h2>Loading</h2>
+          <Spinner />
         </>
       ) : listings && listings.length > 0 ? (
         <>

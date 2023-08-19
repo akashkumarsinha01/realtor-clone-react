@@ -11,6 +11,7 @@ import {
 } from "firebase/firestore";
 import { db } from "../firebase";
 import ListingItem from "../components/ListingItem";
+import Spinner from "../components/Spinner";
 
 export default function Offers() {
   const [listings, setListings] = useState(null);
@@ -77,7 +78,7 @@ export default function Offers() {
       <h1 className="text-3xl text-center mt-6 font-bold mb-6">Offers</h1>
       {loading ? (
         <>
-          <h2>Loading</h2>
+          <Spinner />
         </>
       ) : listings && listings.length > 0 ? (
         <>

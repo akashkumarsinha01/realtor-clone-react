@@ -18,6 +18,8 @@ import {
 } from "firebase/firestore";
 import { db } from "../firebase";
 import { useNavigate, useParams } from "react-router-dom";
+import Spinner from "../components/Spinner";
+
 export default function CreateListing() {
   const navigate = useNavigate();
   const auth = getAuth();
@@ -217,7 +219,7 @@ export default function CreateListing() {
   }
 
   if (loading) {
-    return <h3>Loading</h3>;
+    return <Spinner />;
   }
   return (
     <main className="max-w-md px-2 mx-auto">
